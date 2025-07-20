@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Element By Classnames</title>
+</head>
+<body>
+    <div class="root">
+        <div class="box">
+            <h1>Hello World 1</h1>
+        </div>
+        <div class="box">
+            <h1>Hello World 2</h1>
+        </div>
+        <div class="box">
+            <h1>Hello World 3</h1>
+            <div class="box123 box ">
+                <h1>Hello World 4</h1>
+            </div>
+        </div>
+        <button onclick="handleGetElementsByClassname('box')">Click me</button>
+    </div>
+    <script src="index.js"></script>
+</body>
+</html>
