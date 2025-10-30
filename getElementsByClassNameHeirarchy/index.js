@@ -1,5 +1,5 @@
 // get all the classList of the root element
-const handleGetElementsByClassNameHeirarchy = (classList) => {
+const handleGetElementsByClassNameheirarchy = (classList) => {
     const root = document.querySelector('.root');
     const liveElements = [];
 
