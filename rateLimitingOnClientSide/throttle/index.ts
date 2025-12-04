@@ -1,19 +1,32 @@
 console.log('Rate Limiting on Client Side - Throttle');
 
-// incomplete implementation
+// // simple implementation (bug it wont run the last function call);
+// function throttle<T extends (...a: any[]) => void>(callback: T, delay: number) {
+//     let lastCall: number = 0;
+//     return function (this: ThisParameterType<T>, ...args: Parameters<T>) {
+//         if (Date.now() - lastCall >= delay) {
+//             lastCall = Date.now();
+//             callback.apply(this, args);
+//         }
+//     }
+// }
 
-function throttle<T extends (...a: any[]) => void>(callback: T, delay: number){
-    let timerId: NodeJS.Timeout | undefined;
-    let lastCall: number;
-    return function(this: ThisParameterType<T>, ...args: Parameters<T>){
-        clearTimeout(timerId);
-        if(Date.now() - lastCall >= delay){
-            callback.apply(this, args);
-            timerId = undefined;
+// new version
+const throttle = <T extends(...args: any[]) => void>(callback: T, limit: number) => {
+    let lastFunc: NodeJS.Timeout | undefined;
+    let lastCallDate: number = 0;
+    return (...args: Parameters<T>) => {
+        if(!lastCallDate){
+            callback(...args);
+            lastCallDate = Date.now();
         }else{
-            timerId = setTimeout(() => callback.apply(this, args), delay);
-            timerId = undefined;
-            lastCall = Date.now();
+            clearTimeout(lastFunc);
+            lastFunc = setTimeout(() => {
+                if(Date.now() - lastCallDate >= limit){
+                    callback(...args);
+                    lastCallDate = Date.now();
+                }
+            }, limit - (Date.now() - lastCallDate));
         }
     }
 }
