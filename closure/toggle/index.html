@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toggle Function Demo</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .demo-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fafafa;
+        }
+        
+        .demo-section h3 {
+            margin-top: 0;
+            color: #555;
+        }
+        
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        button:hover {
+            background-color: #0056b3;
+        }
+        
+        .output {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #e9ecef;
+            border-radius: 3px;
+            font-family: monospace;
+            min-height: 20px;
+        }
+        
+        .code {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            margin: 10px 0;
+            border-left: 4px solid #007bff;
+        }
+        
+        .clear-btn {
+            background-color: #6c757d;
+            margin-left: 10px;
+        }
+        
+        .clear-btn:hover {
+            background-color: #545b62;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Toggle Function Demo</h1>
+        
+        <div class="demo-section">
+            <h3>Problem Statement</h3>
+            <p>Create a toggle function that accepts a list of arguments and toggles each of them when invoked in a cycle.</p>
+            
+            <div class="code">
+let hello = toggle("hello");<br>
+hello() // "hello";<br>
+hello() // "hello";<br><br>
+
+let onOff = toggle("on", "off");<br>
+onOff() // "on"<br>
+onOff() // "off"<br>
+onOff() // "on"
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h3>Demo 1: Single Argument</h3>
+            <p>When only one argument is provided, it should always return the same value.</p>
+            <button onclick="testSingleArg()">Call hello()</button>
+            <button class="clear-btn" onclick="clearOutput('output1')">Clear</button>
+            <div id="output1" class="output"></div>
+        </div>
+
+        <div class="demo-section">
+            <h3>Demo 2: Two Arguments (On/Off Toggle)</h3>
+            <p>Alternates between "on" and "off".</p>
+            <button onclick="testOnOff()">Call onOff()</button>
+            <button class="clear-btn" onclick="clearOutput('output2')">Clear</button>
+            <div id="output2" class="output"></div>
+        </div>
+
+        <div class="demo-section">
+            <h3>Demo 3: Multiple Arguments (Colors)</h3>
+            <p>Cycles through red, green, and blue.</p>
+            <button onclick="testColors()">Call colors()</button>
+            <button class="clear-btn" onclick="clearOutput('output3')">Clear</button>
+            <div id="output3" class="output"></div>
+        </div>
+
+        <div class="demo-section">
+            <h3>Demo 4: Numbers</h3>
+            <p>Cycles through numbers 1, 2, 3, 4.</p>
+            <button onclick="testNumbers()">Call numbers()</button>
+            <button class="clear-btn" onclick="clearOutput('output4')">Clear</button>
+            <div id="output4" class="output"></div>
+        </div>
+
+        <div class="demo-section">
+            <h3>Demo 5: Mixed Types</h3>
+            <p>Cycles through different data types: boolean, string, number, null.</p>
+            <button onclick="testMixed()">Call mixed()</button>
+            <button class="clear-btn" onclick="clearOutput('output5')">Clear</button>
+            <div id="output5" class="output"></div>
+        </div>
+    </div>
+    <script type="module">
+        // Toggle function implementation
+        function toggle(...args) {
+            let currentIndex = -1;
+            
+            return function() {
+                currentIndex = (currentIndex + 1) % args.length;
+                return args[currentIndex];
+            };
+        }
+
+        // Create toggle instances
+        const hello = toggle("hello");
+        const onOff = toggle("on", "off");
+        const colors = toggle("red", "green", "blue");
+        const numbers = toggle(1, 2, 3, 4);
+        const mixed = toggle(true, "hello", 42, null);
+
+        // Demo functions
+        function testSingleArg() {
+            const result = hello();
+            appendOutput('output1', `hello() → "${result}"`);
+        }
+
+        function testOnOff() {
+            const result = onOff();
+            appendOutput('output2', `onOff() → "${result}"`);
+        }
+
+        function testColors() {
+            const result = colors();
+            appendOutput('output3', `colors() → "${result}"`);
+        }
+
+        function testNumbers() {
+            const result = numbers();
+            appendOutput('output4', `numbers() → ${result}`);
+        }
+
+        function testMixed() {
+            const result = mixed();
+            const displayValue = result === null ? 'null' : 
+                               typeof result === 'string' ? `"${result}"` : 
+                               result;
+            appendOutput('output5', `mixed() → ${displayValue} (${typeof result})`);
+        }
+
+        function appendOutput(elementId, text) {
+            const output = document.getElementById(elementId);
+            if(output) output.innerHTML += text + '<br>';
+        }
+
+        function clearOutput(elementId) {
+            const output = document.getElementById(elementId);
+            if(output) output.innerHTML = '';
+        }
+
+        // Make functions globally available for onclick handlers
+        window.testSingleArg = testSingleArg;
+        window.testOnOff = testOnOff;
+        window.testColors = testColors;
+        window.testNumbers = testNumbers;
+        window.testMixed = testMixed;
+        window.clearOutput = clearOutput;
+    </script>
+</body>
+</html>

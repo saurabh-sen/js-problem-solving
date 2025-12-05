@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Closure - Sampler Function Demo</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .demo-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fafafa;
+        }
+        
+        .demo-section h3 {
+            margin-top: 0;
+            color: #555;
+        }
+        
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        button:hover {
+            background-color: #0056b3;
+        }
+        
+        .output {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #e9ecef;
+            border-radius: 3px;
+            font-family: monospace;
+            min-height: 20px;
+        }
+        
+        .code {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            margin: 10px 0;
+            border-left: 4px solid #007bff;
+        }
+        
+        .clear-btn {
+            background-color: #6c757d;
+            margin-left: 10px;
+        }
+        
+        .clear-btn:hover {
+            background-color: #545b62;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sampler Function Demo</h1>
+        
+        <div class="demo-section">
+            <h3>Problem Statement</h3>
+            <p>Create a function that accepts a function as input and a count and executes that input function once for a given count of calls. Known as a sampling function.</p>
+            
+            <div class="code">
+function message(){<br>
+&nbsp;&nbsp;console.log("hello");<br>
+}<br><br>
+
+const sample = sampler(message, 4);<br><br>
+
+sample(); // (no output)<br>
+sample(); // (no output)<br>
+sample(); // (no output)<br>
+sample(); // "hello" this will be executed<br>
+sample(); // (no output)<br>
+sample(); // (no output)<br>
+sample(); // (no output)<br>
+sample(); // "hello" this will be executed
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h3>Demo 1: Basic Sampler (Every 4th Call)</h3>
+            <p>Function executes only on every 4th call.</p>
+            <button onclick="testBasicSampler()">Call sample()</button>
+            <button class="clear-btn" onclick="clearOutput('output1')">Clear</button>
+            <div id="output1" class="output"></div>
+        </div>
+
+        <div class="demo-section">
+            <h3>Demo 2: Different Count (Every 3rd Call)</h3>
+            <p>Function executes only on every 3rd call.</p>
+            <button onclick="testThirdCall()">Call sample3()</button>
+            <button class="clear-btn" onclick="clearOutput('output2')">Clear</button>
+            <div id="output2" class="output"></div>
+        </div>
+
+        <div class="demo-section">
+            <h3>Demo 3: Function with Parameters</h3>
+            <p>Sampler works with functions that have parameters.</p>
+            <button onclick="testWithParams()">Call greetSample()</button>
+            <button class="clear-btn" onclick="clearOutput('output3')">Clear</button>
+            <div id="output3" class="output"></div>
+        </div>
+
+        <div class="demo-section">
+            <h3>Demo 4: Return Values</h3>
+            <p>Sampler preserves return values when function executes.</p>
+            <button onclick="testReturnValues()">Call mathSample()</button>
+            <button class="clear-btn" onclick="clearOutput('output4')">Clear</button>
+            <div id="output4" class="output"></div>
+        </div>
+
+        <div class="demo-section">
+            <h3>Demo 5: Multiple Samplers</h3>
+            <p>Different sampler instances maintain separate counters.</p>
+            <button onclick="testMultipleSamplers()">Call both samplers</button>
+            <button class="clear-btn" onclick="clearOutput('output5')">Clear</button>
+            <div id="output5" class="output"></div>
+        </div>
+    </div>
+    <script type="module">
+        // Sampler function implementation
+        function sampler(fn, count) {
+            let callCounter = 0;
+            
+            return function(...args) {
+                callCounter++;
+                
+                // Execute the function only when callCounter is divisible by count
+                if (callCounter % count === 0) {
+                    return fn.apply(this, args);
+                }
+                
+                // Return undefined for non-executing calls
+                return undefined;
+            };
+        }
+
+        // Example functions to be sampled
+        function message() {
+            console.log("hello");
+            return "hello";
+        }
+
+        function greet(name) {
+            const greeting = `Hello, ${name}!`;
+            console.log(greeting);
+            return greeting;
+        }
+
+        function mathOperation() {
+            const result = Math.floor(Math.random() * 100);
+            console.log(`Random number: ${result}`);
+            return result;
+        }
+
+        function logMessage(msg) {
+            console.log(`Log: ${msg}`);
+            return `Logged: ${msg}`;
+        }
+
+        // Create sampler instances
+        const sample = sampler(message, 4);
+        const sample3 = sampler(() => {
+            console.log("Every 3rd call!");
+            return "Executed on 3rd!";
+        }, 3);
+        const greetSample = sampler(greet, 2);
+        const mathSample = sampler(mathOperation, 5);
+        const logSample1 = sampler(logMessage, 2);
+        const logSample2 = sampler(logMessage, 3);
+
+        // Demo functions
+        function testBasicSampler() {
+            const result = sample();
+            const callCount = getCurrentCallCount(sample);
+            if (result !== undefined) {
+                appendOutput('output1', `Call ${callCount}: sample() → "${result}" ✅ EXECUTED`);
+            } else {
+                appendOutput('output1', `Call ${callCount}: sample() → (no execution)`);
+            }
+        }
+
+        function testThirdCall() {
+            const result = sample3();
+            const callCount = getCurrentCallCount(sample3);
+            if (result !== undefined) {
+                appendOutput('output2', `Call ${callCount}: sample3() → "${result}" ✅ EXECUTED`);
+            } else {
+                appendOutput('output2', `Call ${callCount}: sample3() → (no execution)`);
+            }
+        }
+
+        function testWithParams() {
+            const result = greetSample("World");
+            const callCount = getCurrentCallCount(greetSample);
+            if (result !== undefined) {
+                appendOutput('output3', `Call ${callCount}: greetSample("World") → "${result}" ✅ EXECUTED`);
+            } else {
+                appendOutput('output3', `Call ${callCount}: greetSample("World") → (no execution)`);
+            }
+        }
+
+        function testReturnValues() {
+            const result = mathSample();
+            const callCount = getCurrentCallCount(mathSample);
+            if (result !== undefined) {
+                appendOutput('output4', `Call ${callCount}: mathSample() → ${result} ✅ EXECUTED`);
+            } else {
+                appendOutput('output4', `Call ${callCount}: mathSample() → (no execution)`);
+            }
+        }
+
+        function testMultipleSamplers() {
+            const result1 = logSample1("Test A");
+            const result2 = logSample2("Test B");
+            const count1 = getCurrentCallCount(logSample1);
+            const count2 = getCurrentCallCount(logSample2);
+            
+            if (result1 !== undefined) {
+                appendOutput('output5', `Sampler1 Call ${count1}: → "${result1}" ✅`);
+            } else {
+                appendOutput('output5', `Sampler1 Call ${count1}: → (no execution)`);
+            }
+            
+            if (result2 !== undefined) {
+                appendOutput('output5', `Sampler2 Call ${count2}: → "${result2}" ✅`);
+            } else {
+                appendOutput('output5', `Sampler2 Call ${count2}: → (no execution)`);
+            }
+        }
+
+        // Helper function to track call counts (for demo purposes)
+        const callCounts = new WeakMap();
+        
+        function getCurrentCallCount(samplerFn) {
+            if (!callCounts.has(samplerFn)) {
+                callCounts.set(samplerFn, 0);
+            }
+            const current = callCounts.get(samplerFn) + 1;
+            callCounts.set(samplerFn, current);
+            return current;
+        }
+
+        function appendOutput(elementId, text) {
+            const output = document.getElementById(elementId);
+            if(output) output.innerHTML += text + '<br>';
+        }
+
+        function clearOutput(elementId) {
+            const output = document.getElementById(elementId);
+            if(output) output.innerHTML = '';
+        }
+
+        // Make functions globally available for onclick handlers
+        window.testBasicSampler = testBasicSampler;
+        window.testThirdCall = testThirdCall;
+        window.testWithParams = testWithParams;
+        window.testReturnValues = testReturnValues;
+        window.testMultipleSamplers = testMultipleSamplers;
+        window.clearOutput = clearOutput;
+
+        // Run initial demonstration in console
+        window.onload = function() {
+            console.log('=== Sampler Function Examples ===');
+            
+            console.log('\n1. Basic sampler (every 4th call):');
+            const testSample = sampler(message, 4);
+            for (let i = 1; i <= 8; i++) {
+                console.log(`Call ${i}:`);
+                testSample();
+            }
+            
+            console.log('\n2. Different count (every 3rd call):');
+            const test3Sample = sampler(() => console.log("Every 3rd!"), 3);
+            for (let i = 1; i <= 6; i++) {
+                console.log(`Call ${i}:`);
+                test3Sample();
+            }
+        };
+    </script>
+    <script type="module" src="index.ts"></script>
+</body>
+</html>
