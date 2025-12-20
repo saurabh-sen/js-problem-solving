@@ -27,6 +27,21 @@ const filter = <T>(arr: NestedArray<T>, filterFn: (item: T) => boolean): (Nested
     return result;
 };
 
-const arr = [[1, [2, [3, "foo", { a: 1, b: 2 }]], "bar"]];
-const filtered = filter(arr, (e) => typeof e === "number");
-console.log(JSON.stringify(filtered));
+const countElementsFromArray = <T>(arr: NestedArray<T>, filterFn: (item: T) => boolean): number => {
+    let ans = 0;
+    for(const item of arr){
+        if(isNestedArray(item)){
+            ans += countElementsFromArray(item, filterFn);
+        }else if(isValue(item)){
+            if(filterFn(item))ans += 1;
+        }
+    }
+    return ans;
+}
+
+// const arr = [[1, [2, [3, "foo", { a: 1, b: 2 }]], "bar"]];
+const arr =  [[1, [2, [3, 4, "foo", { a: 1, b: 2 }]], "bar"]];
+const cb = <T>(e: T) => typeof e === "number"
+const filtered = filter(arr, cb);
+const countElements = countElementsFromArray(arr, cb)
+console.log(JSON.stringify(filtered), countElements);
