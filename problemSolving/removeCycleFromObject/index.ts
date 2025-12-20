@@ -1,5 +1,10 @@
 console.log("Problem Statement: Remove cycle from object");
 
+// iterate over the object and store the objects in a set
+// if the object is already in the set, delete the object
+// if the object is not in the set, add the object to the set and iterate on the object
+// return the object
+// the object is a record of string and any
 const removeCycleFromObj = (obj: Record<string, any>) => {
     const set = new WeakSet<object>([obj]);
 
