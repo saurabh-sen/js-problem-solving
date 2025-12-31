@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Closure - Curry Function Demo</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #555;
+        }
+        
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .demo-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fafafa;
+        }
+        
+        .demo-section h3 {
+            margin-top: 0;
+            color: #555;
+        }
+        
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        button:hover {
+            background-color: #0056b3;
+        }
+        
+        .output {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #e9ecef;
+            border-radius: 3px;
+            font-family: monospace;
+            min-height: 20px;
+        }
+        
+        .code {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            margin: 10px 0;
+            border-left: 4px solid #007bff;
+        }
+        
+        .clear-btn {
+            background-color: #6c757d;
+            margin-left: 10px;
+        }
+        
+        .clear-btn:hover {
+            background-color: #545b62;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Curry Function Demo</h1>
+        
+        <!-- <div class="demo-section">
+            <h3>Problem Statement</h3>
+            <p>Create a function that accepts a function as input and returns a new function that can be called with the original function's arguments.</p>
+            
+            <div class="code">
+function add(a, b){<br>
+&nbsp;&nbsp;return a + b;<br>
+}<br><br>
+
+const add5 = curry(add, 5);<br><br>
+
+add5(10); // 15
+
+add(1, 2, 3)
+//should return 6
+//currying function
+add(1)(2)(3)
+//should return 6
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h3>Demo 1: Basic Curry Function</h3>
+            <p>Curry function returns a new function that can be called with the original function's arguments.</p>
+            <button onclick="testBasicCurry()">Call add5(10)</button>
+            <button class="clear-btn" onclick="clearOutput('output1')">Clear</button>
+            <div id="output1" class="output"></div>
+        </div>
+
+        <div class="demo-section">
+            <h3>Demo 2: Different Count (Every 3rd Call)</h3>
+            <p>Function executes only on every 3rd call.</p>
+            <button onclick="testCurryFunction()">Call add(1)(2)(3)</button>
+            <button class="clear-btn" onclick="clearOutput('output2')">Clear</button>
+            <div id="output2" class="output"></div>
+        </div>
+
+        <div class="demo-section">
+            <h3>Demo 3: Function with Parameters</h3>
+            <p>Sampler works with functions that have parameters.</p>
+            <button onclick="testCurryFunction()">Call add(1)(2)(3)</button>
+            <button class="clear-btn" onclick="clearOutput('output3')">Clear</button>
+            <div id="output3" class="output"></div>
+        </div>
+
+        <div class="demo-section">
+            <h3>Demo 4: Return Values</h3>
+            <p>Sampler preserves return values when function executes.</p>
+            <button onclick="testCurryFunction()">Call add(1)(2)(3)</button>
+            <button class="clear-btn" onclick="clearOutput('output4')">Clear</button>
+            <div id="output4" class="output"></div>
+        </div>
+
+        <div class="demo-section">
+            <h3>Demo 5: Multiple Samplers</h3>
+            <p>Different sampler instances maintain separate counters.</p>
+            <button onclick="testCurryFunction()">Call add(1)(2)(3)</button>
+            <button class="clear-btn" onclick="clearOutput('output5')">Clear</button>
+            <div id="output5" class="output"></div>
+        </div> -->
+    </div>
+    <!-- <script type="module">
+        // Curry function implementation
+        function curry(fn, count) {
+            let callCounter = 0;
+            
+            return function(...args) {
+                callCounter++;
+                
+                // Execute the function only when callCounter is divisible by count
+                if (callCounter % count === 0) {
+                    return fn.apply(this, args);
+                }
+                
+                // Return undefined for non-executing calls
+                return undefined;
+            };
+        }
+
+        // Example functions to be sampled
+        function add(a, b) {
+            console.log("hello");
+            return "hello";
+        }
+        // Create curry instances
+        const add5 = curry(add, 5);
+
+        // Demo functions
+        function testBasicCurry() {
+            const result = add5(10);
+            const callCount = getCurrentCallCount(add5);
+            if (result !== undefined) {
+                appendOutput('output1', `Call ${callCount}: add5(10) → "${result}" ✅ EXECUTED`);
+            } else {
+                appendOutput('output1', `Call ${callCount}: add5(10) → (no execution)`);
+            }
+        }
+
+        function testThirdCall() {
+            const result = add5(10);
+            const callCount = getCurrentCallCount(add5);
+            if (result !== undefined) {
+                appendOutput('output2', `Call ${callCount}: add5(10) → "${result}" ✅ EXECUTED`);
+            } else {
+                appendOutput('output2', `Call ${callCount}: add5(10) → (no execution)`);
+            }
+        }
+
+        function testWithParams() {
+            const result = add5(10);
+            const callCount = getCurrentCallCount(add5);
+            if (result !== undefined) {
+                appendOutput('output3', `Call ${callCount}: add5(10) → "${result}" ✅ EXECUTED`);
+            } else {
+                appendOutput('output3', `Call ${callCount}: add5(10) → (no execution)`);
+            }
+        }
+
+        function testReturnValues() {
+            const result = add5(10);
+            const callCount = getCurrentCallCount(add5);
+            if (result !== undefined) {
+                appendOutput('output4', `Call ${callCount}: add5(10) → ${result} ✅ EXECUTED`);
+            } else {
+                appendOutput('output4', `Call ${callCount}: add5(10) → (no execution)`);
+            }
+        }
+
+        function testMultipleSamplers() {
+            const result1 = add5(10);
+            const result2 = add5(10);
+            const count1 = getCurrentCallCount(add5);
+            const count2 = getCurrentCallCount(add5);
+            
+            if (result1 !== undefined) {
+                appendOutput('output5', `add5 Call ${count1}: → "${result1}" ✅`);
+            } else {
+                appendOutput('output5', `add5 Call ${count1}: → (no execution)`);
+            }
+            
+            if (result2 !== undefined) {
+                appendOutput('output5', `add5 Call ${count2}: → "${result2}" ✅`);
+            } else {
+                appendOutput('output5', `add5 Call ${count2}: → (no execution)`);
+            }
+        }
+
+        // Helper function to track call counts (for demo purposes)
+        const callCounts = new WeakMap();
+        
+        function getCurrentCallCount(curryFn) {
+            if (!callCounts.has(curryFn)) {
+                callCounts.set(curryFn, 0);
+            }
+            const current = callCounts.get(curryFn) + 1;
+            callCounts.set(curryFn, current);
+            return current;
+        }
+
+        function appendOutput(elementId, text) {
+            const output = document.getElementById(elementId);
+            if(output) output.innerHTML += text + '<br>';
+        }
+
+        function clearOutput(elementId) {
+            const output = document.getElementById(elementId);
+            if(output) output.innerHTML = '';
+        }
+
+        // Make functions globally available for onclick handlers
+        window.testBasicCurry = testBasicCurry;
+        window.testCurryFunction = testCurryFunction;
+        window.testCurryFunctionWithParams = testCurryFunctionWithParams;
+        window.testCurryFunctionReturnValues = testCurryFunctionReturnValues;
+        window.testMultipleCurries = testMultipleCurries;
+        window.clearOutput = clearOutput;
+    </script>  -->
+    <script type="module" src="index.ts"></script>
+</body>
+</html>
