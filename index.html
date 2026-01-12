@@ -85,7 +85,10 @@
         }
 
         .accordion-content.active {
+            /* max-height is used to animate accordion open/close. If you remove it, the transition won't work smoothly. 
+               Setting a large max-height (like 1000px) allows the panel to expand to show its content with a smooth animation. */
             max-height: 1000px;
+            overflow: scroll;
         }
 
         .accordion-body {
@@ -341,7 +344,7 @@
         <!-- Problem Solving Category -->
         <div class="accordion">
             <button class="accordion-header">
-                <span>🧠 Problem Solving <span class="category-count">8 example</span></span>
+                <span>🧠 Problem Solving <span class="category-count">9 example</span></span>
                 <span class="accordion-icon">▼</span>
             </button>
             <div class="accordion-content">
@@ -390,6 +393,11 @@
                         class="example-link">
                         <div class="example-title">Problem Solving - Merge two objects</div>
                         <div class="description">Merge two objects into a new object</div>
+                    </a>
+                    <a href="./problemSolving/checkDeepEqualObjects/index.html"
+                        class="example-link">
+                        <div class="example-title">Problem Solving - Check Deep Equal Objects</div>
+                        <div class="description">Check if two objects are deeply equal</div>
                     </a>
                 </div>
             </div>
