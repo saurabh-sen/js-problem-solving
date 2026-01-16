@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lodash Set Polyfill</title>
+</head>
+<body>
+    <h1>Lodash _.set() Polyfill</h1>
+    <p>Open the console to see the output</p>
+    
+    <div style="margin: 20px; padding: 20px; background-color: rgb(48, 48, 48); color: white; border-radius: 8px;">
+        <h2>Problem Statement:</h2>
+        <p>
+            Implement a method in Javascript that will take an object and a string
+            or array of strings as a path and set the value at that path.
+        </p>
+        
+        <h3>Example:</h3>
+        <pre style="background-color: gray; color: white; padding: 10px; border-radius: 4px;">
+const obj = {
+    a: {
+        b: {
+            c: [1, 2, 3]
+        }
+    }
+};
+
+console.log(set(obj, 'a.b.c', 4));      // { a: { b: { c: 4 } } }
+console.log(set(obj, 'a.b.c.0', 4));    // { a: { b: { c: [4, 2, 3] } } }
+console.log(set(obj, 'a.b.c[1]', 4));   // { a: { b: { c: [4, 4, 3] } } }
+console.log(set(obj, 'a.b.c[3]', 4));   // { a: { b: { c: [4, 4, 3, 4] } } }
+        </pre>
+    </div>
+
+    <script src="./index.ts" type="module"></script>
+</body>
+</html>
+
