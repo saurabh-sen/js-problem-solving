@@ -48,7 +48,7 @@ const getByClassNameHierarchy = (root: HTMLElement | null, path: string): HTMLEl
     // 3. Only return elements that match the complete path
     const pathArr = path.split('>');
     const result: HTMLElement[] = [];
-    if (pathArr[0]) dfs(root, 0, result, pathArr);
+    dfs(root, 0, result, pathArr);
     return result;
 };
 

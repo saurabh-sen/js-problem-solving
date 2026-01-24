@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Element By Color</title>
+    <style>
+        body {
+            font-family: system-ui, sans-serif;
+            padding: 20px;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background: #f5f5f5;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        #root span {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 5px;
+            border: 1px dashed #ccc;
+            background: #333;
+        }
+    </style>
+</head>
+<body>
+    <h2>Find Elements By Color</h2>
+    
+    <p>Find all elements with the given color. The color can be provided in any format: plain text (white), HEXA value (#fff or #ffffff), or RGB value (rgb(255, 255, 255)).</p>
+    
+    <!-- DOM Structure -->
+    <div id="root">
+        <span style="color:#fff;">1</span>
+        <span style="color:#eee;">2</span>
+        <span style="color:white;">3</span>
+        <span style="color:rgb(255, 255, 255);">4</span>
+        <span style="color:#000;">5</span>
+        <span style="color:red;">6</span>
+        <span style="color:#ff0000;">7</span>
+    </div>
+
+    <button onclick="handleFindByColor()">Find elements with color 'rgb(255, 255, 255)'</button>
+    
+    <div class="result" id="result">
+        <!-- Results will be displayed here -->
+    </div>
+
+    <script type="module" src="index.ts"></script>
+</body>
+</html>
+
